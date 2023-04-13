@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* HTML Body */
+@layer base {
+  body {
+    @apply bg-[#141414] text-white h-[1500px];
+  }
+  header {
+    @apply fixed top-0 z-50 w-full flex justify-between items-center py-4 px-4 lg:px-10 transition-all bg-[#1d1d1d7a];
+  }
+}
+/* Custom classes */
+@layer components {
+  .navLink {
+    @apply cursor-pointer text-sm font-light text-[#fff] hover:text-[#b3b3b3];
+  }
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,4 +40,4 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
