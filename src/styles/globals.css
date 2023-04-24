@@ -5,7 +5,7 @@
 /* HTML Body */
 @layer base {
   body {
-    @apply bg-[#141414] text-white h-[1500px];
+    @apply bg-[#141414] text-white h-[1500px] !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-[#E10856];
   }
   header {
     @apply fixed top-0 z-50 w-full flex justify-between items-center py-4 px-4 lg:px-10 transition-all bg-[#1d1d1d7a];
