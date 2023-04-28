@@ -12,7 +12,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
     setMovie(randomMovie);
   }, [trending]);
   return (
-    <div className="flex flex-col space-y-2 py-28 md:space-y-4 lg:h-[65vh] lg:pb-12 lg:justify-center">
+    <div className="flex flex-col space-y-2 py-28 md:space-y-4 lg:h-[65vh] lg:pb-12  lg:justify-center">
       <div className="absolute top-0 left-0 -z-10 h-[95vh] w-full">
         <Image
           src={`${image_base}${movie?.backdrop_path || movie?.poster_path}`}

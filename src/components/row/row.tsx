@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { RowProps } from "./row.props";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import Thumbnail from "../thumbnail/thumbnail";
-const Row = ({ title, movies }: RowProps) => {
+const Row = ({ title, movies, isBig = false }: RowProps) => {
   const [moved, setMoved] = useState<boolean>(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -23,8 +23,8 @@ const Row = ({ title, movies }: RowProps) => {
     }
   };
   return (
-    <div className=" space-y-1 md:space-y-2">
-      <h2 className="w-56 cursor-pointer text-sm md:text-2xl font-semibold text-[#e5e5e5] hover:text-white transition duration-200">
+    <div className="h-[600px] mt-[50px] space-y-1 md:space-y-4">
+      <h2 className="cursor-pointer text-sm md:text-2xl font-semibold text-[#e5e5e5] hover:text-white transition duration-200 ml-10">
         {title}
       </h2>
       {/* {carusel} */}
@@ -37,10 +37,12 @@ const Row = ({ title, movies }: RowProps) => {
         />
         <div
           ref={carouselRef}
-          className="flex items-center space-x-2 md:space-x-4 scrollbar-hide overflow-y-hidden overflow-x-scroll"
+          className={`flex items-center scrollbar-hide overflow-y-hidden overflow-x-scroll ${
+            !isBig && "space-x-2 md:space-x-4"
+          }`}
         >
           {movies.map((movie) => (
-            <Thumbnail key={movie.id} movie={movie} />
+            <Thumbnail key={movie.id} movie={movie} isBig={isBig} />
           ))}
         </div>
         <AiFillCaretRight
