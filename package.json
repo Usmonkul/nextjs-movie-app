@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "firebase": "^9.21.0",
+    "formik": "^2.2.9",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-stars": "^2.2.5",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "18.15.11",
