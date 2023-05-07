@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ITrendingMovie } from "@/interfaces/app.interface";
 import { useContext } from "react";
 import { AuthContext } from "@/context/auth.context";
+import { useInfoStore } from "@/store";
 
 export default function Home({
   trending,
@@ -17,6 +18,7 @@ export default function Home({
   history,
   comedy,
 }: HomeProps): JSX.Element {
+  const { setModal, modal } = useInfoStore();
   const { isLoading } = useContext(AuthContext);
   if (isLoading) return <>Loading...</>;
   return (
