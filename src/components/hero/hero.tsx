@@ -4,8 +4,15 @@ import { ITrendingMovie } from "@/interfaces/app.interface";
 import { image_base } from "@/helpers/constants";
 import ReactStars from "react-stars";
 import Image from "next/image";
+import { useInfoStore } from "@/store";
 const Hero = ({ trending }: HeroProps): JSX.Element => {
+  const { setModal, setCurrentMovie } = useInfoStore();
   const [movie, setMovie] = useState<ITrendingMovie>({} as ITrendingMovie);
+
+  const handleCurrentMovie = () => {
+    setModal(true);
+    setCurrentMovie(movie);
+  };
   useEffect(() => {
     // const randomMovie = trending[Math.floor(Math.random() * trending.length)];
     const randomMovie = trending[16];
@@ -44,8 +51,11 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
       <p className="max-w-xs md:max-w-lg lg:max-w-2xl text-sm md:text-lg lg:text-xl text-shadow-md">
         {movie?.overview?.slice(0, 200)}...
       </p>
-      <div className="p-[2px] rounded-full w-[200px] h-[56px] bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-50">
-        <button className="p-3 bg-black/70 font-bold w-full h-full rounded-full">
+      <div
+        onClick={handleCurrentMovie}
+        className="p-[2px] rounded-full w-[200px] h-[56px] bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-50 "
+      >
+        <button className="p-3 bg-black/70 font-bold w-full h-full rounded-full hover:bg-slate-900 transition-all duration-200">
           Watch Now
         </button>
       </div>

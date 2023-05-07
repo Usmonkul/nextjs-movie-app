@@ -3,15 +3,15 @@ import { create } from "zustand";
 
 interface InfoState {
   modal: boolean;
-  movie: ITrendingMovie;
+  currentMovie: ITrendingMovie;
   setModal: (bool: boolean) => void;
-  setMovie: (movie: ITrendingMovie) => void;
+  setCurrentMovie: (movie: ITrendingMovie) => void;
 }
 
 export const useInfoStore = create<InfoState>()((set) => ({
   modal: false,
-  movie: {} as ITrendingMovie,
+  currentMovie: {} as ITrendingMovie,
   setModal: (bool: boolean) => set((state) => ({ ...state, modal: bool })),
-  setMovie: (movie: ITrendingMovie) =>
-    set((state) => ({ ...state, movie: movie })),
+  setCurrentMovie: (movie: ITrendingMovie) =>
+    set((state) => ({ ...state, currentMovie: movie })),
 }));

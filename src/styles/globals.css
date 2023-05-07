@@ -19,6 +19,9 @@
   .input {
     @apply bg-[#333] w-full rounded px-5 py-4 placeholder-[gray] outline-none focus:bg-[#454545];
   }
+  .modalButton {
+    @apply flex items-center justify-center rounded-full hover:bg-[#E10856]/50 transition-all;
+  }
 }
 
 /* :root {

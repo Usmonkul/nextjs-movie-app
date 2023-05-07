@@ -1,4 +1,4 @@
-import { Header, Hero, Row } from "@/components";
+import { Header, Hero, Modal, Row } from "@/components";
 import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -43,26 +43,48 @@ export default function Home({
           <Row title="Drama Movies" movies={drama} isBig={true} />
         </section>
       </main>
+      {modal && <Modal />}
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
-  const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
-  const popular = await fetch(API_REQUEST.popular).then((res) => res.json());
-  const tv_top_rated = await fetch(API_REQUEST.tv_top_rated).then((res) =>
-    res.json()
-  );
-  const documentary = await fetch(API_REQUEST.documentary).then((res) =>
-    res.json()
-  );
-  const comedy = await fetch(API_REQUEST.comedy).then((res) => res.json());
-  const animation = await fetch(API_REQUEST.animation).then((res) =>
-    res.json()
-  );
-  const history = await fetch(API_REQUEST.history).then((res) => res.json());
-  const drama = await fetch(API_REQUEST.drama).then((res) => res.json());
+  const [
+    trending,
+    topRated,
+    popular,
+    tv_top_rated,
+    documentary,
+    comedy,
+    animation,
+    history,
+    drama,
+  ] = await Promise.all([
+    fetch(API_REQUEST.trending).then((res) => res.json()),
+    fetch(API_REQUEST.top_rated).then((res) => res.json()),
+    fetch(API_REQUEST.popular).then((res) => res.json()),
+    fetch(API_REQUEST.tv_top_rated).then((res) => res.json()),
+    fetch(API_REQUEST.documentary).then((res) => res.json()),
+    fetch(API_REQUEST.comedy).then((res) => res.json()),
+    fetch(API_REQUEST.animation).then((res) => res.json()),
+    fetch(API_REQUEST.history).then((res) => res.json()),
+    fetch(API_REQUEST.drama).then((res) => res.json()),
+  ]);
+  // const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
+  // const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
+  // const popular = await fetch(API_REQUEST.popular).then((res) => res.json());
+  // const tv_top_rated = await fetch(API_REQUEST.tv_top_rated).then((res) =>
+  //   res.json()
+  // );
+  // const documentary = await fetch(API_REQUEST.documentary).then((res) =>
+  //   res.json()
+  // );
+  // const comedy = await fetch(API_REQUEST.comedy).then((res) => res.json());
+  // const animation = await fetch(API_REQUEST.animation).then((res) =>
+  //   res.json()
+  // );
+  // const history = await fetch(API_REQUEST.history).then((res) => res.json());
+  // const drama = await fetch(API_REQUEST.drama).then((res) => res.json());
 
   return {
     props: {
