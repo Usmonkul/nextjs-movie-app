@@ -1,23 +1,34 @@
 import { TextField } from "@/components";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { AuthContext } from "@/context/auth.context";
+import { useRouter } from "next/router";
 const Auth = () => {
   const [auth, setAuth] = useState<"signin" | "signup">("signin");
   const toggleAuth = (state: "signin" | "signup") => {
     setAuth(state);
   };
+  const { error, logout, signIn, signUp, isLoading, user } =
+    useContext(AuthContext);
+  const router = useRouter();
+  if (user) router.push("/");
+
   const onSubmit = (formData: { email: string; password: string }) => {
-    alert(JSON.stringify(formData, null, 2));
+    if (auth === "signup") {
+      signUp(formData.email, formData.password);
+    } else {
+      signIn(formData.email, formData.password);
+    }
   };
   const validation = Yup.object({
     email: Yup.string()
       .email("Enter vailid Email")
       .required("Email is required"),
     password: Yup.string()
-      .min(4, "Minimum 4 characters or letters")
+      .min(4, "Minimum 6 characters or letters")
       .required("Password is required"),
   });
   return (
@@ -48,6 +59,9 @@ const Auth = () => {
         <h2 className="text-4xl font-semibold uppercase">
           {auth === "signin" ? "Sign In" : "Sign Up"}
         </h2>
+        {error && (
+          <p className="text-red-500 font-semibold text-center">{error}</p>
+        )}
         <Formik
           validationSchema={validation}
           initialValues={{
@@ -65,21 +79,18 @@ const Auth = () => {
                 placeholder="Enter Your Password"
               />
             </div>
-            {auth === "signin" ? (
-              <button
-                className="w-full mt-4 bg-[#E10856] py-3 font-semibold uppercase"
-                type="submit"
-              >
-                Sign In
-              </button>
-            ) : (
-              <button
-                className="w-full mt-4 bg-[#E10856] py-3 font-semibold uppercase"
-                type="submit"
-              >
-                Sign Up
-              </button>
-            )}
+
+            <button
+              className="w-full mt-4 bg-[#E10856] py-3 font-semibold uppercase"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading
+                ? "Loading..."
+                : auth === "signin"
+                ? "Sign In"
+                : "Sign Up"}
+            </button>
           </Form>
         </Formik>
 

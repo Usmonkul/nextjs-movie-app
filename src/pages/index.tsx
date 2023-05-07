@@ -3,7 +3,8 @@ import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { ITrendingMovie } from "@/interfaces/app.interface";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "@/context/auth.context";
 
 export default function Home({
   trending,
@@ -16,6 +17,8 @@ export default function Home({
   history,
   comedy,
 }: HomeProps): JSX.Element {
+  const { isLoading } = useContext(AuthContext);
+  if (isLoading) return <>Loading...</>;
   return (
     <div className="relative min-h-screen">
       <Head>
