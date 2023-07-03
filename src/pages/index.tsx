@@ -1,4 +1,4 @@
-import { Header, Hero, Modal, Row } from "@/components";
+import { Header, Hero, Modal, Row, SubscriptionPlan } from "@/components";
 import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -20,7 +20,9 @@ export default function Home({
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
   const { isLoading } = useContext(AuthContext);
+  const subscription = false;
   if (isLoading) return <>Loading...</>;
+  if (!subscription) return <SubscriptionPlan />;
   return (
     <div className="relative min-h-screen">
       <Head>
