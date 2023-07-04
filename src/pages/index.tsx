@@ -2,7 +2,7 @@ import { Header, Hero, Modal, Row, SubscriptionPlan } from "@/components";
 import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { ITrendingMovie } from "@/interfaces/app.interface";
+import { ITrendingMovie, Product } from "@/interfaces/app.interface";
 import { useContext } from "react";
 import { AuthContext } from "@/context/auth.context";
 import { useInfoStore } from "@/store";
@@ -17,12 +17,14 @@ export default function Home({
   animation,
   history,
   comedy,
+  products,
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
   const { isLoading } = useContext(AuthContext);
   const subscription = false;
+  console.log(products);
   if (isLoading) return <>Loading...</>;
-  if (!subscription) return <SubscriptionPlan />;
+  if (!subscription) return <SubscriptionPlan products={products} />;
   return (
     <div className="relative min-h-screen">
       <Head>
@@ -61,6 +63,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     animation,
     history,
     drama,
+    products,
   ] = await Promise.all([
     fetch(API_REQUEST.trending).then((res) => res.json()),
     fetch(API_REQUEST.top_rated).then((res) => res.json()),
@@ -71,6 +74,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     fetch(API_REQUEST.animation).then((res) => res.json()),
     fetch(API_REQUEST.history).then((res) => res.json()),
     fetch(API_REQUEST.drama).then((res) => res.json()),
+    fetch(API_REQUEST.products_list).then((res) => res.json()),
   ]);
   // const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
   // const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
@@ -99,6 +103,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       history: history.results,
       drama: drama.results,
       animation: animation.results,
+      products: products.products.data,
     },
   };
 };
@@ -112,4 +117,5 @@ interface HomeProps {
   history: ITrendingMovie[];
   animation: ITrendingMovie[];
   drama: ITrendingMovie[];
+  products: Product[];
 }

@@ -1,6 +1,6 @@
 const base_url = process.env.NEXT_PUBLIC_API_DOMAIN as string;
 const api_key = process.env.NEXT_PUBLIC_API_KEY as string;
-
+const public_domain = process.env.NEXT_PUBLIC_DOMAIN as string;
 export const API_REQUEST = {
   trending: `${base_url}/trending/all/week?api_key=${api_key}&language=en-US`,
   top_rated: `${base_url}/movie/top_rated?api_key=${api_key}&language=en-US`,
@@ -11,4 +11,5 @@ export const API_REQUEST = {
   drama: `${base_url}/discover/movie?api_key=${api_key}&language=en-US&with_genres=18`,
   animation: `${base_url}/discover/movie?api_key=${api_key}&language=en-US&with_genres=16`,
   history: `${base_url}/discover/movie?api_key=${api_key}&language=en-US&with_genres=36`,
+  products_list: `${public_domain}/api/products`,
 };
