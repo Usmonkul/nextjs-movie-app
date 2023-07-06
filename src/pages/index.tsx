@@ -22,7 +22,6 @@ export default function Home({
   const { setModal, modal } = useInfoStore();
   const { isLoading } = useContext(AuthContext);
   const subscription = false;
-  console.log(products);
   if (isLoading) return <>Loading...</>;
   if (!subscription) return <SubscriptionPlan products={products} />;
   return (
