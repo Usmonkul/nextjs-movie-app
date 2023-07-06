@@ -6,18 +6,28 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { AuthContext } from "@/context/auth.context";
 import { useRouter } from "next/router";
+import { useAuth } from "@/hooks/useAuth";
 const Auth = () => {
   const [auth, setAuth] = useState<"signin" | "signup">("signin");
   const toggleAuth = (state: "signin" | "signup") => {
     setAuth(state);
   };
-  const { error, logout, signIn, signUp, isLoading, user } =
-    useContext(AuthContext);
+  const { error, logout, signIn, signUp, isLoading, user, setIsLoading } =
+    useAuth();
   const router = useRouter();
   if (user) router.push("/");
 
-  const onSubmit = (formData: { email: string; password: string }) => {
+  const onSubmit = async (formData: { email: string; password: string }) => {
     if (auth === "signup") {
+      setIsLoading(true);
+      const response = await fetch("/api/customers", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+      await response.json();
       signUp(formData.email, formData.password);
     } else {
       signIn(formData.email, formData.password);

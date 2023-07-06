@@ -13,11 +13,15 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { method } = req;
-  if (method === "GET") {
-    const products = await stripe.products.list({
-      expand: ["data.default_price"],
-    });
-    return res.status(200).json({ products });
+  if (method === "POST") {
+    try {
+      const { email } = req.body;
+      const customer = await stripe.customers.create({ email });
+      return res.status(200).json({ message: "Success" });
+    } catch (error) {
+      const result = error as Error;
+      return res.status(400).json({ message: result.message });
+    }
   } else {
     return res.status(400).json({
       message: "Method not allowed",
@@ -26,6 +30,5 @@ export default async function handler(
 }
 
 type Data = {
-  products?: Stripe.Response<Stripe.ApiList<Stripe.Product>>;
   message?: string;
 };
