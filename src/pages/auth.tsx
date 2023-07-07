@@ -1,12 +1,11 @@
 import { TextField } from "@/components";
 import Head from "next/head";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { AuthContext } from "@/context/auth.context";
-import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/useAuth";
+import { GetServerSideProps } from "next";
 const Auth = () => {
   const [auth, setAuth] = useState<"signin" | "signup">("signin");
   const toggleAuth = (state: "signin" | "signup") => {
@@ -14,8 +13,6 @@ const Auth = () => {
   };
   const { error, logout, signIn, signUp, isLoading, user, setIsLoading } =
     useAuth();
-  const router = useRouter();
-  if (user) router.push("/");
 
   const onSubmit = async (formData: { email: string; password: string }) => {
     if (auth === "signup") {
@@ -124,3 +121,17 @@ const Auth = () => {
 };
 
 export default Auth;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const user_id = req.cookies.user_id;
+
+  if (user_id) {
+    return {
+      redirect: { destination: "/", permanent: false },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

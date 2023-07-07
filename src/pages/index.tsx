@@ -3,8 +3,6 @@ import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { ITrendingMovie, Product } from "@/interfaces/app.interface";
-import { useContext } from "react";
-import { AuthContext } from "@/context/auth.context";
 import { useInfoStore } from "@/store";
 
 export default function Home({
@@ -21,9 +19,7 @@ export default function Home({
   subscription,
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
-  const { isLoading } = useContext(AuthContext);
 
-  if (isLoading) return <>Loading...</>;
   if (!subscription.length) return <SubscriptionPlan products={products} />;
   return (
     <div className="relative min-h-screen">
@@ -56,6 +52,12 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
   req,
 }) => {
   const user_id = req.cookies.user_id;
+
+  if (!user_id) {
+    return {
+      redirect: { destination: "/auth", permanent: false },
+    };
+  }
   const [
     trending,
     topRated,
