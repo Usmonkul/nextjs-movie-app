@@ -18,12 +18,13 @@ export default function Home({
   history,
   comedy,
   products,
+  subscription,
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
   const { isLoading } = useContext(AuthContext);
-  const subscription = false;
+
   if (isLoading) return <>Loading...</>;
-  if (!subscription) return <SubscriptionPlan products={products} />;
+  if (!subscription.length) return <SubscriptionPlan products={products} />;
   return (
     <div className="relative min-h-screen">
       <Head>
@@ -51,7 +52,10 @@ export default function Home({
   );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
+  req,
+}) => {
+  const user_id = req.cookies.user_id;
   const [
     trending,
     topRated,
@@ -63,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     history,
     drama,
     products,
+    subscription,
   ] = await Promise.all([
     fetch(API_REQUEST.trending).then((res) => res.json()),
     fetch(API_REQUEST.top_rated).then((res) => res.json()),
@@ -74,6 +79,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     fetch(API_REQUEST.history).then((res) => res.json()),
     fetch(API_REQUEST.drama).then((res) => res.json()),
     fetch(API_REQUEST.products_list).then((res) => res.json()),
+    fetch(`${API_REQUEST.subscription}/${user_id}`).then((res) => res.json()),
   ]);
   // const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
   // const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
@@ -103,6 +109,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       drama: drama.results,
       animation: animation.results,
       products: products.products.data,
+      subscription: subscription.subscription.data,
     },
   };
 };
@@ -117,4 +124,5 @@ interface HomeProps {
   animation: ITrendingMovie[];
   drama: ITrendingMovie[];
   products: Product[];
+  subscription: string;
 }

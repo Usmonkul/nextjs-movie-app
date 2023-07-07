@@ -12,26 +12,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { method } = req;
-  if (method === "POST") {
-    try {
-      const { email, user_id } = req.body;
-      const customer = await stripe.customers.create({
-        email,
-        metadata: { user_id },
-      });
-      return res.status(200).json({ message: "Success" });
-    } catch (error) {
-      const result = error as Error;
-      return res.status(400).json({ message: result.message });
-    }
-  } else {
-    return res.status(400).json({
-      message: "Method not allowed",
+  if (req.method === "GET") {
+    const { id } = req.query;
+    const customers = await stripe.customers.list({ limit: 100 });
+    const customer = customers.data.find((c) => c.metadata.user_id === id);
+
+    const subscription = await stripe.subscriptions.list({
+      limit: 1,
+      customer: customer?.id,
     });
+    return res.status(200).json({ subscription });
   }
 }
 
 type Data = {
+  subscription?: Stripe.Response<Stripe.ApiList<Stripe.Subscription>>;
   message?: string;
 };
