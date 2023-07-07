@@ -48,9 +48,16 @@ const MembershipPlan = ({ subscription }: MembershipPlanProps) => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="py-1 px-3 uppercase rounded bg-white/20">
-                {subscription.default_payment_method.card.brand}
+                {subscription.default_payment_method
+                  ? subscription.default_payment_method.card.brand
+                  : subscription.customer.invoice_settings
+                      .default_payment_method.card.brand}
               </span>
-              **** **** **** {subscription.default_payment_method.card.last4}
+              **** **** ****{" "}
+              {subscription.default_payment_method
+                ? subscription.default_payment_method.card.last4
+                : subscription.customer.invoice_settings.default_payment_method
+                    .card.last4}
             </div>
             <p>
               Your next billing date is{" "}
