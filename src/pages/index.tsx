@@ -2,8 +2,9 @@ import { Header, Hero, Modal, Row, SubscriptionPlan } from "@/components";
 import { API_REQUEST } from "@/services/api.service";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { ITrendingMovie, Product } from "@/interfaces/app.interface";
+import { ITrendingMovie, MyList, Product } from "@/interfaces/app.interface";
 import { useInfoStore } from "@/store";
+import { getList } from "@/helpers/lists";
 
 export default function Home({
   trending,
@@ -17,9 +18,10 @@ export default function Home({
   comedy,
   products,
   subscription,
+  list,
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
-
+  console.log(list);
   if (!subscription.length) return <SubscriptionPlan products={products} />;
   return (
     <div className="relative min-h-screen">
@@ -34,6 +36,7 @@ export default function Home({
         <Hero trending={trending} />
         <section className="pt-[100px] md:pt-[200px]">
           <Row title="Top Rated Movies" movies={topRated} />
+          {list.length ? <Row title="My List" movies={list} /> : null}
           <Row title="TV Show" movies={tv_top_rated} isBig={true} />
           <Row title="Popular Movies" movies={popular} />
           <Row title="Animation Movies" movies={animation} isBig={true} />
@@ -83,6 +86,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
     fetch(API_REQUEST.products_list).then((res) => res.json()),
     fetch(`${API_REQUEST.subscription}/${user_id}`).then((res) => res.json()),
   ]);
+
+  const myList: MyList[] = await getList(user_id);
   // const trending = await fetch(API_REQUEST.trending).then((res) => res.json());
   // const topRated = await fetch(API_REQUEST.top_rated).then((res) => res.json());
   // const popular = await fetch(API_REQUEST.popular).then((res) => res.json());
@@ -112,6 +117,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
       animation: animation.results,
       products: products.products.data,
       subscription: subscription.subscription.data,
+      list: myList.map((c) => c.product),
     },
   };
 };
@@ -127,4 +133,5 @@ interface HomeProps {
   drama: ITrendingMovie[];
   products: Product[];
   subscription: string;
+  list: ITrendingMovie[];
 }

@@ -1,3 +1,5 @@
+import { DocumentData } from "firebase/firestore";
+
 export interface ITrendingMovie {
   adult: boolean;
   backdrop_path: string;
@@ -68,4 +70,9 @@ export interface Subscription {
       };
     };
   };
+}
+
+export interface MyList {
+  userId: string;
+  product: ITrendingMovie;
 }
