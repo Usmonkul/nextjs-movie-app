@@ -15,7 +15,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
   };
   useEffect(() => {
     // const randomMovie = trending[Math.floor(Math.random() * trending.length)];
-    const randomMovie = trending[16];
+    const randomMovie = trending[Math.floor(Math.random() * trending.length)];
     setMovie(randomMovie);
   }, [trending]);
   return (

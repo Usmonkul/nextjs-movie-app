@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { SubscriptionPlanProps } from "./subscriptionProps";
 import PlanCard from "../plan-card/plan-card";
 
-const SubscriptionPlan = ({ products }: SubscriptionPlanProps) => {
+const SubscriptionPlan = ({ products, handleClick }: SubscriptionPlanProps) => {
   const { logout } = useAuth();
 
   return (
@@ -15,6 +15,7 @@ const SubscriptionPlan = ({ products }: SubscriptionPlanProps) => {
           width={56}
           height={56}
           className={"cursor-pointer object-contain"}
+          onClick={handleClick}
         />
         <div onClick={logout} className="cursor-pointer hover:underline">
           Logout

@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ITrendingMovie, MyList, Product } from "@/interfaces/app.interface";
 import { useInfoStore } from "@/store";
 import { getList } from "@/helpers/lists";
+import { useState } from "react";
 
 export default function Home({
   trending,
@@ -21,8 +22,14 @@ export default function Home({
   list,
 }: HomeProps): JSX.Element {
   const { setModal, modal } = useInfoStore();
-  console.log(list);
-  if (!subscription.length) return <SubscriptionPlan products={products} />;
+  const [isMember, setIsMember] = useState<boolean>(true);
+
+  const handleClick = () => {
+    setIsMember(!isMember);
+  };
+  //!subscription.length ||
+  if (!isMember)
+    return <SubscriptionPlan products={products} handleClick={handleClick} />;
   return (
     <div className="relative min-h-screen">
       <Head>
@@ -31,7 +38,7 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/Logo.svg" />
       </Head>
-      <Header />
+      <Header setIsMember={handleClick} />
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
         <Hero trending={trending} />
         <section className="pt-[100px] md:pt-[200px]">

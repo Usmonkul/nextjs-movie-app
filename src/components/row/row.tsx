@@ -23,8 +23,8 @@ const Row = ({ title, movies, isBig = false }: RowProps) => {
     }
   };
   return (
-    <div className="h-[600px] mt-[50px] space-y-1 md:space-y-4">
-      <h2 className="cursor-pointer text-sm md:text-2xl font-semibold text-[#e5e5e5] hover:text-white transition duration-200 ml-10">
+    <div className="md:h-[600px] mt-[50px] space-y-1 md:space-y-4">
+      <h2 className="cursor-pointer text-lg py-1 md:text-2xl font-semibold text-[#e5e5e5] hover:text-white transition duration-200 ml-10">
         {title}
       </h2>
       {/* {carusel} */}

@@ -8,7 +8,8 @@ import {
 } from "react-icons/ai";
 import { BiBellMinus } from "react-icons/bi";
 import { AuthContext } from "@/context/auth.context";
-const Header = () => {
+import NavMenu from "../nav-menu/nav-menu";
+const Header = ({ setIsMember }: { setIsMember: () => void }) => {
   const { logout } = useContext(AuthContext);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -23,6 +24,7 @@ const Header = () => {
 
     return () => window.removeEventListener("scroll", scrollHandler);
   }, []);
+
   return (
     <header className={`${scrolled && "bg-[#E10856] shadow-lg"}`}>
       <div className="flex items-center space-x-2 md:space-x-10 ">
@@ -33,8 +35,13 @@ const Header = () => {
           width={56}
           className="cursor-pointer object-contain"
         />
+        <NavMenu setIsMember={setIsMember} />
+
         <ul className="space-x-4 md:flex hidden">
           <li className="navLink">Home</li>
+          <li onClick={setIsMember} className="navLink">
+            Pricing
+          </li>
           <li className="navLink">Movies</li>
           <li className="navLink">Tv Series</li>
           <li className="navLink">Popular</li>
